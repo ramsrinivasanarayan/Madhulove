@@ -1,153 +1,197 @@
- <!DOCTYPE html>
-<html lang="vi">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uyên Nhi</title>
-    <link rel="shortcut icon" href="./icon.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Sorry Munilakxmi Madhu</title>
     <link rel="stylesheet" href="main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        .button { width: 121px; }
+        .button:hover { transform: scale(1.4); }
+        #music-btn { position: fixed; right: 14px; top: 14px; z-index: 300; width: 44px; height: 44px; border-radius: 50%;
+                     border: 1px solid #fff4; background: #ffffff1a; color: #fff; font-size: 20px; cursor: pointer; }
+        #hint { position: fixed; left: 0; right: 0; bottom: 14px; text-align: center; color: #fff8;
+                font: 13px Poppins, sans-serif; z-index: 200; pointer-events: none; }
+    </style>
 </head>
-
 <body>
     <div id="drag-container">
         <div id="spin-container">
-            <img src="./images/a1.png" alt="">
-            <img src="./images/a2.jpg" alt="">
-            <img src="./images/a3.jpg" alt="">
-            <img src="./images/a4.png" alt="">
-            <img src="./images/a5.png" alt="">
-            <img src="./images/a6.png" alt="">
-            <img src="./images/a7.png" alt="">
-            <img src="./images/a8.png" alt="">
-            <img src="./images/s1.jpeg" alt="">
-            <img src="./images/s2.jpeg" alt="">
-            <img src="./images/s3.jpeg" alt="">
-            <img src="./images/s4.jpeg" alt="">
-            <img src="./images/s5.jpeg" alt="">
-            <img src="./images/s6.jpeg" alt="">
-            <p style="">Sorry <span style=""> Munilakxmi</span> Madhu </p>
-            <button class="button" onclick="confetti()"></button>
+            <img src="./images/05938459-e444-448a-b949-749e9d7a9648.jpg" alt="">
+            <img src="./images/4fd99cb2-9451-45b2-9c6b-5905322da19a.png" alt="">
+            <img src="./images/55fef46c-4b1d-466b-beaa-477f1d55a575.jpg" alt="">
+            <img src="./images/8404da65-7d90-42ad-bdc7-c56fe6b5fe7d.jpg" alt="">
+            <img src="./images/Gemini_Generated_Image_4sfdqz4sfdqz4sfd.jpg" alt="">
+            <img src="./images/Gemini_Generated_Image_u0173xu0173xu017.jpg" alt="">
+            <img src="./images/a9fa2d97-39e4-4cc0-a1b9-4faf7f4d648e.png" alt="">
+            <img src="./images/abf7a68c-4f04-403b-a2f5-2fc9ed6b6d62.png" alt="">
+            <img src="./images/b45f5211-4e28-405d-a58e-1d49d6fbe464.png" alt="">
+            <p>Sorry<span> Munilakxmi</span> Madhu</p>
+            <button class="button" aria-label="Celebrate" onclick="confetti({particleCount:180,spread:100,origin:{y:0.6}})"></button>
         </div>
         <div id="ground"></div>
     </div>
-
     <div id="music-container"></div>
-    <!-- <div id="canva">
-        <canvas id="canvas"></canvas>
-    </div> -->
+    <audio id="bgm" src="./music/setlove.mp3" loop></audio>
+    <button id="music-btn" aria-label="Music on/off">🔇</button>
+    <div id="hint">Tap anywhere for music · drag to rotate</div>
 
-    <!-- Audio tự động phát -->
-    <!-- <audio id="myAudio" autoplay playsinline>
-        <source src="music/setlove.mp3" type="audio/mpeg">
-        <source src="music/setlove.ogg" type="audio/ogg">
-    </audio> -->
-      <script src='https://cdn.jsdelivr.net/npm/canvas-confetti@1/dist/confetti.browser.min.js'></script>
-    <script src="main.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script>
-        window.onload = function () {
-            var audio = document.getElementById("myAudio");
-            audio.muted = false;
-            audio.play().catch(function (e) {
-                console.log('Audio playback failed:', e);
-            });
+// You can change global variables here:
+var radius = 240; // how big of the radius
+var autoRotate = true; // auto rotate or not
+var rotateSpeed = -60; // unit: seconds/360 degrees
+var imgWidth = 120; // width of images (unit: px)
+var imgHeight = 170; // height of images (unit: px)
 
-            // Hiệu ứng pháo hoa và trái tim
-            const canvas = document.getElementById("canvas");
-            const ctx = canvas.getContext("2d");
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+// Link of background music - set 'null' if you dont want to play background music
+var bgMusicURL = null;
+var bgMusicControls = true; // Show UI music control
 
-            function random(min, max) {
-                return Math.random() * (max - min) + min;
-            }
 
-            function Firework(x, y) {
-                this.x = x;
-                this.y = y;
-                this.radius = random(2, 4);
-                this.color = `hsl(${random(0, 360)}, 100%, 50%)`;
-                this.vx = random(-3, 3);
-                this.vy = random(-3, 3);
-                this.life = 100;
-            }
 
-            Firework.prototype.draw = function () {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            };
+// ===================== start =======================
+// animation start after 1000 miliseconds
+setTimeout(init, 1000);
 
-            Firework.prototype.update = function () {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.life--;
-            };
+var odrag = document.getElementById('drag-container');
+var ospin = document.getElementById('spin-container');
+var aImg = ospin.getElementsByTagName('img');
+var aVid = ospin.getElementsByTagName('video');
+var aEle = [...aImg, ...aVid]; // combine 2 arrays
 
-            function Heart(x, y) {
-                this.x = x;
-                this.y = y;
-                this.size = random(20, 40);
-                this.color = 'red';
-                this.vy = random(-2, -1);
-                this.opacity = 1;
-            }
+// Size of images
+ospin.style.width = imgWidth + "px";
+ospin.style.height = imgHeight + "px";
 
-            Heart.prototype.draw = function () {
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.bezierCurveTo(this.x - this.size / 2, this.y - this.size / 2, this.x - this.size, this.y + this.size / 3, this.x, this.y + this.size);
-                ctx.bezierCurveTo(this.x + this.size, this.y + this.size / 3, this.x + this.size / 2, this.y - this.size / 2, this.x, this.y);
-                ctx.fillStyle = this.color;
-                ctx.globalAlpha = this.opacity;
-                ctx.fill();
-                ctx.globalAlpha = 1;
-            };
+// Size of ground - depend on radius
+var ground = document.getElementById('ground');
+ground.style.width = radius * 3 + "px";
+ground.style.height = radius * 3 + "px";
 
-            Heart.prototype.update = function () {
-                this.y += this.vy;
-                this.opacity -= 0.01;
-            };
+function init(delayTime) {
+  for (var i = 0; i < aEle.length; i++) {
+    aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(" + radius + "px)";
+    aEle[i].style.transition = "transform 1s";
+    aEle[i].style.transitionDelay = delayTime || (aEle.length - i) / 4 + "s";
+  }
+}
 
-            let fireworks = [];
-            let hearts = [];
+function applyTranform(obj) {
+  // Constrain the angle of camera (between 0 and 180)
+  if(tY > 180) tY = 180;
+  if(tY < 0) tY = 0;
 
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                if (Math.random() < 0.1) {
-                    fireworks.push(new Firework(random(0, canvas.width), random(0, canvas.height)));
-                }
-                if (Math.random() < 0.05) {
-                    hearts.push(new Heart(random(0, canvas.width), canvas.height));
-                }
+  // Apply the angle
+  obj.style.transform = "rotateX(" + (-tY) + "deg) rotateY(" + (tX) + "deg)";
+}
 
-                fireworks.forEach((firework, index) => {
-                    firework.draw();
-                    firework.update();
-                    if (firework.life <= 0) {
-                        fireworks.splice(index, 1);
-                    }
-                });
+function playSpin(yes) {
+  ospin.style.animationPlayState = (yes?'running':'paused');
+}
 
-                hearts.forEach((heart, index) => {
-                    heart.draw();
-                    heart.update();
-                    if (heart.opacity <= 0) {
-                        hearts.splice(index, 1);
-                    }
-                });
+var sX, sY, nX, nY, desX = 0,
+    desY = 0,
+    tX = 0,
+    tY = 10;
 
-                requestAnimationFrame(animate);
-            }
-            animate();
-        };
+// auto spin
+if (autoRotate) {
+  var animationName = (rotateSpeed > 0 ? 'spin' : 'spinRevert');
+  ospin.style.animation = `${animationName} ${Math.abs(rotateSpeed)}s infinite linear`;
+}
+
+// add background music
+if (bgMusicURL) {
+  document.getElementById('music-container').innerHTML += `
+<audio src="${bgMusicURL}" ${bgMusicControls? 'controls': ''} autoplay loop>    
+<p>If you are reading this, it is because your browser does not support the audio element.</p>
+</audio>
+`;
+}
+
+// setup events
+document.onpointerdown = function (e) {
+  clearInterval(odrag.timer);
+  e = e || window.event;
+  var sX = e.clientX,
+      sY = e.clientY;
+
+  this.onpointermove = function (e) {
+    e = e || window.event;
+    var nX = e.clientX,
+        nY = e.clientY;
+    desX = nX - sX;
+    desY = nY - sY;
+    tX += desX * 0.1;
+    tY += desY * 0.1;
+    applyTranform(odrag);
+    sX = nX;
+    sY = nY;
+  };
+
+  this.onpointerup = function (e) {
+    odrag.timer = setInterval(function () {
+      desX *= 0.95;
+      desY *= 0.95;
+      tX += desX * 0.1;
+      tY += desY * 0.1;
+      applyTranform(odrag);
+      playSpin(false);
+      if (Math.abs(desX) < 0.5 && Math.abs(desY) < 0.5) {
+        clearInterval(odrag.timer);
+        playSpin(true);
+      }
+    }, 17);
+    this.onpointermove = this.onpointerup = null;
+  };
+
+  return false;
+};
+
+document.onmousewheel = function(e) {
+  e = e || window.event;
+  var d = e.wheelDelta / 20 || -e.detail;
+  radius += d;
+  init(1);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('wheel', function (e) { radius = Math.max(120, Math.min(600, radius - e.deltaY / 10)); init(1); }, { passive: true });
+document.querySelector('.button').addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+
+// Music: browsers block autoplay, so it starts on the first tap
+var audio = document.getElementById('bgm'), mb = document.getElementById('music-btn');
+function setIcon() { mb.textContent = audio.paused ? '🔇' : '🔊'; }
+audio.play().then(setIcon).catch(setIcon);
+document.addEventListener('pointerdown', function first() {
+    if (audio.paused && !audio.dataset.user) audio.play().then(setIcon).catch(function () {});
+    document.removeEventListener('pointerdown', first);
+});
+mb.addEventListener('pointerdown', function (e) {
+    e.stopPropagation(); audio.dataset.user = 1;
+    if (audio.paused) audio.play(); else audio.pause();
+    setTimeout(setIcon, 50);
+});
     </script>
 </body>
-
 </html>
